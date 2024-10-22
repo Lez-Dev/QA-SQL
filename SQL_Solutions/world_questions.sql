@@ -66,7 +66,47 @@ SELECT Code, Name FROM country
 WHERE country.HeadOfState = 'Charles III';
 
 # 13 - List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
-SELECT (country.Population / country.SurfaceArea) AS populationToAreaRatio FROM country
+SELECT country.Name, (country.Population / country.SurfaceArea) AS populationToAreaRatio FROM country
+WHERE country.SurfaceArea > 0 AND country.population != 0
+ORDER BY (country.Population / country.SurfaceArea) ASC
+LIMIT 10;
+
+# 14 - List every unique world language.
+SELECT DISTINCT Language FROM countrylanguage;
+
+# 15 - List the names and GNP of the world's top 10 richest countries.
+SELECT country.Name, country.GNP FROM country
+ORDER BY country.GNP DESC
+LIMIT 10;
+
+# 16 - List the names of, and number of languages spoken by, the top ten most multilingual countries.
+SELECT country.Name, COUNT(cl.Language) AS languagesSpoken FROM country
+JOIN countrylanguage cl ON country.Code = cl.CountryCode
+GROUP BY country.Name
+ORDER BY languagesSpoken DESC
+LIMIT 10;
+
+# 17 - List every country where over 50% of its population can speak German.
+SELECT Name FROM country
+JOIN countrylanguage cl ON country.Code = cl.CountryCode
+WHERE cl.Language = 'German' AND cl.Percentage > 50;
+
+# 18 - Which country has the worst life expectancy? Discard zero or null values.
+SELECT Name, LifeExpectancy from country
+WHERE LifeExpectancy IS NOT NULL AND LifeExpectancy != 0
+ORDER BY LifeExpectancy ASC
+LIMIT 1;
+
+# 19 - List the top three most common government forms.
+SELECT GovernmentForm, COUNT(country.GovernmentForm) AS GovernmentFormCount FROM country
+Group By country.GovernmentForm
+Order by COUNT(country.GovernmentForm) DESC
+LIMIT 3;
+
+# 20 - How many countries have gained independence since records began?
+SELECT COUNT(country.IndepYear) AS IndCountriesSince FROM country
+WHERE IndepYear IS NOT NULL;
+
 
 
 
