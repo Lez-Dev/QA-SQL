@@ -65,6 +65,10 @@ LIMIT 5;
 SELECT Code, Name FROM country
 WHERE country.HeadOfState = 'Charles III';
 
+# 13 - List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
+SELECT (country.Population / country.SurfaceArea) AS populationToAreaRatio FROM country
+
+
 
 
 
