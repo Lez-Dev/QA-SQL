@@ -68,5 +68,42 @@ ORDER BY return_date DESC
 LIMIT 1;
 
 # 15 - What is the average runtime of all films?
-SELECT AVG(f.length) AS average_run_time FROM film;
+SELECT AVG(length) AS average_run_time FROM film;
+# 115.2720
+
+# 16 - List the average runtime for every film category.
+SELECT c.name, AVG(f.length) AS average_run_time FROM category c
+JOIN film_category fc ON c.category_id = fc.category_id
+JOIN film f ON fc.film_id = f.film_id
+GROUP BY c.name;
+
+# 17 - List of all movies featuring a robot
+SELECT * FROM film WHERE description LIKE '%robot%';
+
+# 18 - How many movies were released in 2010?
+SELECT COUNT(release_year) AS twenty_ten_releases FROM film WHERE release_year = 2010;
+
+# 19 - Find the titles of all the horror movies.
+SELECT title FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+WHERE c.name = 'Horror';
+
+# 20 - List the full name of the staff member with the ID of 2.
+SELECT first_name, last_name FROM staff WHERE staff_id = 2;
+
+# 21 - List all the movies that Fred Costner has appeared in.
+SELECT title FROM film f
+JOIN film_actor fa ON f.film_id = fa.film_id
+JOIN actor a ON fa.actor_id = a.actor_id
+WHERE a.first_name = 'Fred' AND a.last_name = 'Costner';
+
+# 22 - How many distinct countries are there?
+SELECT DISTINCT COUNT(country_id) FROM country;
+
+# 23 - List the name of every language in reverse-alphabetical order.
+SELECT DISTINCT name FROM language
+ORDER BY name DESC;
+
+# 24 - List the full names of every actor whose surname ends with '-son' in alphabetical order by their forename.
 
